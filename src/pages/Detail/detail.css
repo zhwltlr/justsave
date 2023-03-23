@@ -1,0 +1,108 @@
+#detail {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  padding: 80px 0;
+}
+
+.detailInner {
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 7px;
+  padding-bottom: 50px;
+}
+
+.detailTitle {
+  width: 1100px;
+  margin: 0 auto;
+  height: 120px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid aqua;
+}
+
+.detailTitle button {
+  margin-left: auto;
+  border: none;
+  outline: none;
+  width: 80px;
+  border-radius: 7px;
+  background-color: blue;
+  color: #fff;
+  height: 32px;
+  font-size: 14px;
+}
+
+.detailInner h2,
+.detailInner span {
+  font-size: 24px;
+  font-weight: 500;
+  margin-left: 3px;
+}
+
+.detailContent {
+  width: 1100px;
+  padding: 50px 0;
+  margin: 0 auto;
+}
+
+.detailContent p {
+  font-size: 18px;
+  line-height: 36px;
+  margin-bottom: 25px;
+}
+
+.detailContent .detailCreatedAt {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+.goList {
+  display: block;
+  width: 80px;
+  border-radius: 7px;
+  background-color: blue;
+  color: #fff;
+  height: 32px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  margin: 0 auto;
+}
+
+#relatedPost {
+  width: 1100px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.relatedPostTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.relatedPostlist {
+  display: flex;
+  flex-direction: column;
+}
+
+.relatedPostlist li {
+  color: #333;
+  padding: 15px 10px;
+  font-size: 16px;
+  font-weight: 300;
+  border-bottom: 1px solid #888;
+}
+
+.relatedPostlist li:first-child {
+  border-top: 1px solid #000;
+}
+
+.relatedPostlist li:last-child {
+  border-bottom: 1px solid #000;
+}

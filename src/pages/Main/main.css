@@ -1,0 +1,116 @@
+main {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  padding: 80px 0;
+}
+
+.mainInner {
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 7px;
+  padding-bottom: 50px;
+}
+
+.mainTitle {
+  width: 1100px;
+  height: 180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.mainTitle h2 {
+  font-size: 36px;
+  font-weight: 500;
+}
+
+#mainList {
+  width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#mainList table {
+  table-layout: fixed;
+  border-top: 2px solid #333;
+}
+#mainList th {
+  height: 60px;
+  line-height: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+  font-weight: 500;
+}
+#mainList td {
+  padding: 20px 0;
+  line-height: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+#mainList td.listTitle:hover {
+  text-decoration: underline;
+  color: red;
+  cursor: pointer;
+}
+
+.mainBottom {
+  width: 1100px;
+  margin: 0 auto;
+  margin-top: 25px;
+  position: relative;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pagination ul {
+  padding: 0;
+  list-style: none;
+}
+.pagination li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+.pagination li a {
+  color: black;
+  font-size: 15px;
+  text-decoration: none;
+}
+.pagination li.active a {
+  color: #fff;
+}
+
+.pagination li.active {
+  background-color: blue;
+}
+
+.pagination li a:hover,
+.pagination li a.active {
+  color: #bbb;
+}
+
+.postCreate {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  outline: none;
+  width: 80px;
+  border-radius: 7px;
+  background-color: blue;
+  color: #fff;
+  height: 32px;
+  font-size: 14px;
+}

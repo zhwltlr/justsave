@@ -1,0 +1,75 @@
+#write {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  padding: 80px 0;
+}
+
+.writeInner {
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 7px;
+  padding-bottom: 50px;
+}
+
+.writeTitle {
+  width: 1100px;
+  margin: 0 auto;
+  height: 120px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.writeInner h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-left: 3px;
+}
+
+.writeContent {
+  width: 1100px;
+  padding: 0 0 50px 0;
+  margin: 0 auto;
+}
+
+.writeInput {
+  width: 1100px;
+  height: 50px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  outline: none;
+  margin-bottom: 30px;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+#writeTextarea {
+  width: 1100px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  outline: none;
+  font-size: 16px;
+  padding: 10px;
+}
+
+#registerPost {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#registerPost button {
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  width: 80px;
+  border-radius: 7px;
+  background-color: blue;
+  color: #fff;
+  height: 32px;
+  font-size: 16px;
+}
