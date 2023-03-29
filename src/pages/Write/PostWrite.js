@@ -41,13 +41,13 @@ function PostWrite() {
   const newPost = (e) => {
     const { name, value } = e.target;
     setWriteList((prev) => ({ ...prev, [name]: value }));
-    console.log(writeList);
   };
   const editPost = (e) => {
     const { name, value } = e.target;
     setDetailWeki((prev) => ({ ...prev, [name]: value }));
   };
-
+  const postTime = new Date().toLocaleDateString();
+  console.log(postTime);
   const createPost = () => {
     const postTime = new Date().toLocaleDateString();
     const currentId = localStorage.getItem("postId");
@@ -74,17 +74,21 @@ function PostWrite() {
   };
 
   const updatePost = async () => {
+    const postTime = new Date().toLocaleDateString();
     const updateRef = doc(firestore, "list", currentId);
     await updateDoc(updateRef, {
       postTitle: detailWeki.postTitle,
       postContent: detailWeki.postContent,
       lecture: detailWeki.lecture,
+      createAt: postTime,
     });
   };
 
   useEffect(() => {
-    const cnt = Number(localStorage.getItem("postId"));
-    localStorage.setItem("postId", cnt + 1);
+    if (!editId.id) {
+      const cnt = Number(localStorage.getItem("postId"));
+      localStorage.setItem("postId", cnt + 1);
+    }
   }, []);
 
   return (
@@ -153,6 +157,7 @@ function PostWrite() {
           {editId.id ? (
             <div>
               <button
+                className="cancleBtn"
                 onClick={() => {
                   navigate("/");
                 }}
@@ -171,6 +176,7 @@ function PostWrite() {
           ) : (
             <div>
               <button
+                className="cancleBtn"
                 onClick={() => {
                   navigate("/");
                 }}

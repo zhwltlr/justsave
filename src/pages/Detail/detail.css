@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid aqua;
+  border-bottom: 3px solid #09c6c3;
 }
 
 .detailTitle button {
@@ -30,7 +30,7 @@
   outline: none;
   width: 80px;
   border-radius: 7px;
-  background-color: blue;
+  background-color: #09c6c3;
   color: #fff;
   height: 32px;
   font-size: 14px;
@@ -49,7 +49,8 @@
   margin: 0 auto;
 }
 
-.detailContent p {
+.detailContent p,
+.detailContent p span {
   font-size: 18px;
   line-height: 36px;
   margin-bottom: 25px;
@@ -65,7 +66,7 @@
   display: block;
   width: 80px;
   border-radius: 7px;
-  background-color: blue;
+  background-color: #09c6c3;
   color: #fff;
   height: 32px;
   font-size: 14px;
@@ -78,8 +79,14 @@
   width: 1100px;
   margin: 0 auto;
   margin-top: 50px;
+  padding-bottom: 100px;
 }
-
+.delimiter {
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
 .relatedPostTitle {
   font-size: 18px;
   font-weight: 500;
@@ -98,11 +105,7 @@
   font-weight: 300;
   border-bottom: 1px solid #888;
 }
-
-.relatedPostlist li:first-child {
-  border-top: 1px solid #000;
-}
-
-.relatedPostlist li:last-child {
-  border-bottom: 1px solid #000;
+.relatedPostlist li:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

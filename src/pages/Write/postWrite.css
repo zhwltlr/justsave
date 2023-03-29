@@ -68,8 +68,12 @@
   outline: none;
   width: 80px;
   border-radius: 7px;
-  background-color: blue;
+  background-color: #09c6c3;
   color: #fff;
   height: 32px;
   font-size: 16px;
+}
+#registerPost .cancleBtn {
+  background-color: #ddd;
+  color: #333;
 }
