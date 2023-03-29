@@ -46,8 +46,6 @@ function PostWrite() {
     const { name, value } = e.target;
     setDetailWeki((prev) => ({ ...prev, [name]: value }));
   };
-  const postTime = new Date().toLocaleDateString();
-  console.log(postTime);
   const createPost = () => {
     const postTime = new Date().toLocaleDateString();
     const currentId = localStorage.getItem("postId");

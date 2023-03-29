@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Knowledge Weki System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+<img src="https://ifh.cc/g/4hH094.gif" width="800" align="center" />
+</div>
 
-## Available Scripts
+In the project directory, you can run: `npm start`
 
-In the project directory, you can run:
+<br />
 
-### `npm start`
+## Tools
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Notion, Trello, Github, Slack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<br />
 
-### `npm test`
+## 기술스텍
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+JavaScript, React, Firebase
 
-### `npm run build`
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 구현 기능
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. 목록 페이지
+   - Firebase에 저장된 데이터 베이스를 `getDocs()`를 이용하여 가져온 후 5개가 넘어가는 데이터는 페이지네이션을 통해 구현
+   - 목록 타이틀 클릭시 `react-router-dom`을 이용하여 용어 정의가 되어있는 상세 페이지로 이동
+   - 용어 등록이 가능한 등록 페이지로 이동할 수 있는 등록 버튼 구현
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br />
 
-### `npm run eject`
+2. 상세 페이지
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   - 용어에 대한 설명 중 firebase 내에 저장된 데이터 title 값과 일치할 경우 해당 페이지로 이동할 수 있게 구현
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```
+   const listRef = collection(firestore, "list");
+   useEffect(() => {
+       const readPostList = async () => {
+       const data = await getDocs(listRef);
+       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+       setTitleList(data.docs.map((doc) => doc.data().postTitle));
+       };
+       readPostList();
+   }, []);
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   - post Content를 담은 후, post Title만의 데이터 리스트를 따로 관리하여
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```
+   const getHighlightText = (text) => {
+   let delimiter = titleList;
 
-## Learn More
+   // 본문 설명에 delmiter 내용이 포함 될 경우, 해당 내용 기준으로 spilt (정규표현식 이용)
+   const wekiWord = text?.split(new RegExp(`(${delimiter.join("|")})`));
+    // split 된 내용들을 포함할 경우, 해당 상세 페이지로 이동할 수 있게 해줌
+   return wekiWord.map((word, i) => {
+     if (delimiter.includes(word)) {
+       return (
+         <span
+           key={i}
+           className="delimiter"
+           onClick={() => {
+             goToOtherDetail(word);
+           }}
+         >
+           {word}
+         </span>
+       );
+     }
+     return <span key={i}>{word}</span>;
+   });
+   };
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - `getHighlightText(text)` 를 이용하여 키워드와 아닌 것을 구분하여 ui를 구현
 
-### Code Splitting
+<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. 등록 및 수정 페이지
 
-### Analyzing the Bundle Size
+   - postId 값이 있을 경우 수정 페이지로, postId 값이 없을 경우 등록 페이지로 구현하여 하나의 컴포넌트로 효율적으로 관리
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   ```
+    <Route path="/register/:id?" element={<PostWrite />} />
+   ```
 
-### Making a Progressive Web App
+    <img src="https://user-images.githubusercontent.com/100506719/228567772-5fcc7706-afe6-4a07-8afb-5a1c9b8b88fb.png" width="800" align="center" />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   - 수정 버튼 클릭시 해당 Id 값과 일치하는 내용을 불러와 사용자가 편하게 수정할 수 있도록 `updateGet()` 작성
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   ```
+     const updateGet = async (clickedId) => {
+    // Id 값과 일치하는 내용을 detailWeki 리스트에 담기
+    const q = query(
+      collection(firestore, "list"),
+      where("postTitle", "==", clickedId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setCurrentId(doc.id);
+      setDetailWeki(doc.data());
+    });
+   };
+   useEffect(() => {
+    updateGet(clickedId);
+   }, []);
+   ```
