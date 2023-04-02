@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { postIdState } from "../../atom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import "./detail.css";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
+import { WekiListType } from "../../../@types/AllType";
+import wekiListConverter from "pages/FirestoreDataConverter";
 
 function Detail() {
   const params = useParams();
   const navigate = useNavigate();
-  const clickedId = useRecoilValue(postIdState);
-  const [detailWeki, setDetailWeki] = useState([]);
-  const [titleList, setTitleList] = useState([]);
+  const [clickedId, setClickedId] = useRecoilState(postIdState);
+  const [detailWeki, setDetailWeki] = useState<WekiListType>();
+  const [titleList, setTitleList] = useState<string[]>([]);
+  const [postList, setPostList] = useState<WekiListType[]>([]);
+  const listRef = collection(firestore, "list").withConverter(
+    wekiListConverter
+  );
 
   const updateGet = async () => {
     const q = query(
@@ -20,11 +26,13 @@ function Detail() {
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      setDetailWeki(doc.data());
+      const data = doc.data() as WekiListType;
+      setDetailWeki(data);
+      setClickedId(data.postTitle);
     });
   };
 
-  const goToOtherDetail = async (postTitle) => {
+  const goToOtherDetail = async (postTitle: string) => {
     const q = query(
       collection(firestore, "list"),
       where("postTitle", "==", postTitle)
@@ -35,24 +43,19 @@ function Detail() {
     });
   };
 
-  const [postList, setPostList] = useState([]);
-  const listRef = collection(firestore, "list");
-  useEffect(() => {
-    const readPostList = async () => {
-      const data = await getDocs(listRef);
-      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      setTitleList(data.docs.map((doc) => doc.data().postTitle));
-    };
-    readPostList();
-  }, []);
+  const readPostList = async () => {
+    const data = await getDocs<WekiListType>(listRef);
+    setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setTitleList(data.docs.map((doc) => doc.data().postTitle));
+  };
 
   useEffect(() => {
-    updateGet(clickedId);
+    updateGet();
+    readPostList();
   }, [params.id]);
 
-  const getHighlightText = (text) => {
-    let delimiter = titleList;
-    const wekiWord = text?.split(new RegExp(`(${delimiter.join("|")})`));
+  const getHighlightText = (text: string) => {
+    const wekiWord = text?.split(new RegExp(`(${titleList.join("|")})`));
     if (!wekiWord) return null;
 
     if (wekiWord.length === 1) {
@@ -60,7 +63,7 @@ function Detail() {
     }
 
     return wekiWord.map((word, i) => {
-      if (delimiter.includes(word)) {
+      if (titleList.includes(word)) {
         return (
           <span
             key={i}

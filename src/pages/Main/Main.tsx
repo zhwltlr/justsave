@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { firestore } from "../firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query, orderBy } from "firebase/firestore";
 import { postIdState } from "../../atom";
 import { useSetRecoilState } from "recoil";
 import "./main.css";
+import { WekiListType } from "../../../@types/AllType";
+import wekiListConverter from "pages/FirestoreDataConverter";
 
 const Main = () => {
-  const [totalCnt, setTotalCnt] = useState(0);
-  const [clickedButton, setClickedButton] = useState(1);
+  const [totalCnt, setTotalCnt] = useState<number>(0);
+  const [clickedButton, setClickedButton] = useState<number>(1);
 
   const navigate = useNavigate();
   const clickedTitle = useSetRecoilState(postIdState);
 
-  const goToDetail = (postTitle, id) => {
+  const goToDetail = (postTitle: string, id: number) => {
     clickedTitle(postTitle);
     navigate(`/post/${id}`);
   };
 
-  const [allList, setAllList] = useState([]);
-  const [currentList, setCurrentList] = useState([]);
-  const [page, setPage] = useState(1);
-  const listRef = collection(firestore, "list");
+  const [allList, setAllList] = useState<WekiListType[]>([]);
+  const [currentList, setCurrentList] = useState<WekiListType[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const listRef = collection(firestore, "list").withConverter(
+    wekiListConverter
+  );
 
   useEffect(() => {
     const getCount = async () => {
@@ -32,19 +36,20 @@ const Main = () => {
     };
     getCount();
     const readPostList = async () => {
-      const data = await getDocs(listRef);
-      setAllList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const list = query(listRef, orderBy("postTitle"));
+      const trimList = await getDocs(list);
+      setAllList(trimList.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     readPostList();
   }, []);
 
-  const Paging = (page) => {
-    const clickNum = (page - 1) * 5;
-    let clickPage = allList.slice(clickNum, clickNum + 5);
-    setCurrentList(clickPage);
+  const paging = (page: number) => {
+    const clickNum: number = (page - 1) * 5;
+    setCurrentList(allList.slice(clickNum, clickNum + 5));
   };
+
   useEffect(() => {
-    Paging(page);
+    paging(page);
   }, [allList, page]);
 
   const pageCount = Math.ceil(totalCnt / 5);
@@ -111,9 +116,12 @@ const Main = () => {
                 className={
                   clickedButton === index + 1 ? "paginationBtn" : "pagination"
                 }
-                onClick={(e) => {
-                  setPage(Number(e.target.innerText));
-                  setClickedButton(Number(e.target.innerText));
+                onClick={(
+                  e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                ) => {
+                  const text = e.target as HTMLElement;
+                  setPage(Number(text.innerText));
+                  setClickedButton(Number(text.innerText));
                 }}
               >
                 {index + 1}

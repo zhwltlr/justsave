@@ -13,17 +13,18 @@ import { postIdState, writeCnt } from "../../atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import "./postWrite.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { WekiListType, WriteListType } from "../../../@types/AllType";
 
 function PostWrite() {
   const editId = useParams();
   const navigate = useNavigate();
-  const [writeList, setWriteList] = useState([]);
+  const [writeList, setWriteList] = useState<WriteListType>();
   const [currentId, setCurrentId] = useState("");
   const [changeWriteCnt, setChangeWriteCnt] = useRecoilState(writeCnt);
   const clickedId = useRecoilValue(postIdState);
-  const [detailWeki, setDetailWeki] = useState([]);
+  const [detailWeki, setDetailWeki] = useState<WekiListType>();
 
-  const updateGet = async (clickedId) => {
+  const updateGet = async (clickedId: string) => {
     const q = query(
       collection(firestore, "list"),
       where("postTitle", "==", clickedId)
@@ -31,26 +32,41 @@ function PostWrite() {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       setCurrentId(doc.id);
-      setDetailWeki(doc.data());
+      const data = doc.data() as WekiListType;
+      setDetailWeki(data);
     });
   };
   useEffect(() => {
-    updateGet(clickedId);
+    if (clickedId) {
+      updateGet(clickedId);
+    }
   }, []);
 
-  const newPost = (e) => {
-    const { name, value } = e.target;
-    setWriteList((prev) => ({ ...prev, [name]: value }));
+  const newPost = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    if (name && value) {
+      setWriteList((prev: any) =>
+        prev ? { ...prev, [name]: value } : { [name]: value }
+      );
+    }
   };
-  const editPost = (e) => {
+  const editPost = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
-    setDetailWeki((prev) => ({ ...prev, [name]: value }));
+    setDetailWeki((prev: any) =>
+      prev ? { ...prev, [name]: value } : { [name]: value }
+    );
   };
   const createPost = () => {
     const postTime = new Date().toLocaleDateString();
     const currentId = localStorage.getItem("postId");
     setChangeWriteCnt(changeWriteCnt + 1);
     if (
+      writeList &&
       writeList.title !== "" &&
       writeList.content !== "" &&
       writeList.lecture !== ""
@@ -63,6 +79,7 @@ function PostWrite() {
           postId: currentId,
           createAt: postTime,
         });
+        // setWriteList({});
       } catch (err) {
         alert(err);
       }
@@ -74,18 +91,20 @@ function PostWrite() {
   const updatePost = async () => {
     const postTime = new Date().toLocaleDateString();
     const updateRef = doc(firestore, "list", currentId);
-    await updateDoc(updateRef, {
-      postTitle: detailWeki.postTitle,
-      postContent: detailWeki.postContent,
-      lecture: detailWeki.lecture,
-      createAt: postTime,
-    });
+    if (detailWeki) {
+      await updateDoc(updateRef, {
+        postTitle: detailWeki.postTitle,
+        postContent: detailWeki.postContent,
+        lecture: detailWeki.lecture,
+        createAt: postTime,
+      });
+    }
   };
 
   useEffect(() => {
     if (!editId.id) {
       const cnt = Number(localStorage.getItem("postId"));
-      localStorage.setItem("postId", cnt + 1);
+      localStorage.setItem("postId", String(cnt + 1));
     }
   }, []);
 
@@ -93,7 +112,7 @@ function PostWrite() {
     <section id="write">
       <div className="writeInner">
         <div className="writeTitle">
-          <h2> 위키 등록하기</h2>
+          <h2> 위키 {editId.id ? "수정" : "등록"}하기</h2>
         </div>
         <div className="writeContent">
           {editId.id ? (
@@ -104,7 +123,7 @@ function PostWrite() {
                 name="lecture"
                 className="writeInput"
                 onChange={editPost}
-                value={detailWeki.lecture || ""}
+                value={detailWeki ? detailWeki.lecture : ""}
               />
               <input
                 type="text"
@@ -112,15 +131,15 @@ function PostWrite() {
                 name="postTitle"
                 className="writeInput"
                 onChange={editPost}
-                value={detailWeki.postTitle || ""}
+                value={detailWeki ? detailWeki.postTitle : ""}
               />
               <textarea
                 name="postContent"
                 id="writeTextarea"
                 placeholder="내용을 입력하세요"
-                rows="20"
+                rows={Number(`${20}`)}
                 onChange={editPost}
-                value={detailWeki.postContent || ""}
+                value={detailWeki ? detailWeki.postContent : ""}
               ></textarea>
             </>
           ) : (
@@ -143,12 +162,11 @@ function PostWrite() {
                 name="content"
                 id="writeTextarea"
                 placeholder="내용을 입력하세요"
-                rows="20"
+                rows={Number(`${20}`)}
                 onChange={newPost}
               ></textarea>
             </>
           )}
-          {/* <span className="writeCreatedAt">2023.03.12</span> */}
         </div>
 
         <section id="registerPost">

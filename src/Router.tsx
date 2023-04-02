@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Detail from "./pages/Detail/Detail.js";
-import Main from "./pages/Main/Main.js";
-import PostWrite from "./pages/Write/PostWrite.js";
+import Detail from "./pages/Detail/Detail";
+import Main from "./pages/Main/Main";
+import PostWrite from "./pages/Write/PostWrite";
 import { RecoilRoot } from "recoil";
 
 const Router = () => {
