@@ -16,7 +16,7 @@ Notion, Trello, Github, Slack
 
 ## 기술스텍
 
-JavaScript, React, Firebase
+JavaScript, React, Firebase, TypeScript
 
 <br/>
 
@@ -107,3 +107,8 @@ JavaScript, React, Firebase
     updateGet(clickedId);
    }, []);
    ```
+
+## 변경사항
+
+- TypeScript 적용 완료 (23.04)
+- 위키 목록 가나다순 정렬 적용 (23.04)
