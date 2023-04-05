@@ -8,12 +8,6 @@ In the project directory, you can run: `npm start`
 
 <br />
 
-## Tools
-
-Notion, Trello, Github, Slack
-
-<br />
-
 ## 기술스텍
 
 JavaScript, React, Firebase, TypeScript
@@ -45,7 +39,7 @@ JavaScript, React, Firebase, TypeScript
    }, []);
    ```
 
-   - post Content를 담은 후, post Title만의 데이터 리스트를 따로 관리하여
+   - post Content를 담은 후, post Title만의 데이터 리스트를 따로 관리하여 관련 글 목록 생성
 
    ```
    const getHighlightText = (text) => {
@@ -86,7 +80,11 @@ JavaScript, React, Firebase, TypeScript
     <Route path="/register/:id?" element={<PostWrite />} />
    ```
 
+   <br />
+
     <img src="https://user-images.githubusercontent.com/100506719/228567772-5fcc7706-afe6-4a07-8afb-5a1c9b8b88fb.png" width="800" align="center" />
+
+     <br />
 
    - 수정 버튼 클릭시 해당 Id 값과 일치하는 내용을 불러와 사용자가 편하게 수정할 수 있도록 `updateGet()` 작성
 
