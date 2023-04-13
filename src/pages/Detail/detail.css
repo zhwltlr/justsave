@@ -18,22 +18,32 @@
   margin: 0 auto;
   height: 120px;
   margin: 0 auto;
+  border-bottom: 3px solid #09c6c3;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #09c6c3;
+}
+
+.detailTitle > div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .detailTitle button {
-  margin-left: auto;
   border: none;
   outline: none;
   width: 80px;
   border-radius: 7px;
-  background-color: #09c6c3;
+  background-color: #bbb;
   color: #fff;
   height: 32px;
   font-size: 14px;
+}
+
+.detailTitle .alginLeft {
+  margin-right: 5px;
+  background-color: #09c6c3;
 }
 
 .detailInner h2,
@@ -108,4 +118,14 @@
 .relatedPostlist li:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.relatedPostlist .clickedTitle {
+  color: #09c6c3;
+  font-weight: 500;
+}
+
+.relatedPostlist .clickedTitle:hover {
+  cursor: inherit;
+  text-decoration: none;
 }

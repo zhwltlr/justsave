@@ -12,6 +12,7 @@ const wekiListConverter: FirestoreDataConverter<WekiListType> = {
       postId: list.postId,
       lecture: list.lecture,
       createAt: list.createAt,
+      postContent: list.postContent,
     };
   },
   fromFirestore(snapshot: QueryDocumentSnapshot<DocumentData>): WekiListType {

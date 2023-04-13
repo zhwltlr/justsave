@@ -110,3 +110,5 @@ JavaScript, React, Firebase, TypeScript
 
 - TypeScript 적용 완료 (23.04)
 - 위키 목록 가나다순 정렬 적용 (23.04)
+- 디테일 페이지 삭제 버튼 추가 (23.04)
+- 관련 글 중 유저가 보고 있는 페이지 구분 표시 (23.04)

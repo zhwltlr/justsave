@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { postIdState } from "../../atom";
 import { useRecoilState } from "recoil";
 import "./detail.css";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { WekiListType } from "../../../@types/AllType";
@@ -12,6 +19,7 @@ function Detail() {
   const params = useParams();
   const navigate = useNavigate();
   const [clickedId, setClickedId] = useRecoilState(postIdState);
+  const [deleteId, setDeleteId] = useState<string>("");
   const [detailWeki, setDetailWeki] = useState<WekiListType>();
   const [titleList, setTitleList] = useState<string[]>([]);
   const [postList, setPostList] = useState<WekiListType[]>([]);
@@ -28,8 +36,15 @@ function Detail() {
     querySnapshot.forEach((doc) => {
       const data = doc.data() as WekiListType;
       setDetailWeki(data);
+      setDeleteId(doc.id);
       setClickedId(data.postTitle);
     });
+  };
+
+  const deletePost = async () => {
+    alert("정말 삭제하시겠습니까?");
+    await deleteDoc(doc(firestore, "list", deleteId));
+    navigate("/");
   };
 
   const goToOtherDetail = async (postTitle: string) => {
@@ -86,16 +101,27 @@ function Detail() {
     <section id="detail">
       <div className="detailInner">
         <div className="detailTitle">
-          <h2>[{detailWeki.lecture}]</h2>
-          <span>{detailWeki.postTitle}</span>
-          <button
-            onClick={() => {
-              navigate(`/register/${detailWeki.postId}`);
-            }}
-            className="alginLeft"
-          >
-            수정
-          </button>
+          <div>
+            <h2>[{detailWeki.lecture}]</h2>
+            <span>{detailWeki.postTitle}</span>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                navigate(`/register/${detailWeki.postId}`);
+              }}
+              className="alginLeft"
+            >
+              수정
+            </button>
+            <button
+              onClick={() => {
+                deletePost();
+              }}
+            >
+              삭제
+            </button>
+          </div>
         </div>
         <div className="detailContent">
           <p>{getHighlightText(detailWeki.postContent)}</p>
@@ -118,13 +144,17 @@ function Detail() {
           return (
             <ul className="relatedPostlist" key={i}>
               {post.postContent.includes(clickedId) ? (
-                <li
-                  onClick={() => {
-                    navigate(`/post/${post.postId}`);
-                  }}
-                >
-                  {post.postTitle}
-                </li>
+                post.postTitle === clickedId ? (
+                  <li className="clickedTitle">{post.postTitle}</li>
+                ) : (
+                  <li
+                    onClick={() => {
+                      navigate(`/post/${post.postId}`);
+                    }}
+                  >
+                    {post.postTitle}
+                  </li>
+                )
               ) : null}
             </ul>
           );
