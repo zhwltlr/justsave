@@ -175,7 +175,7 @@ function PostWrite() {
               <button
                 className="cancleBtn"
                 onClick={() => {
-                  navigate("/");
+                  navigate(`/post/${editId.id}`);
                 }}
               >
                 취소
@@ -183,7 +183,7 @@ function PostWrite() {
               <button
                 onClick={() => {
                   updatePost();
-                  navigate("/");
+                  navigate(`/post/${editId.id}`);
                 }}
               >
                 수정
