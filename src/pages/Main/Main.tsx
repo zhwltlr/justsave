@@ -4,9 +4,9 @@ import { firestore } from "../firebase";
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
 import { postIdState } from "../../atom";
 import { useSetRecoilState } from "recoil";
-import "./main.css";
 import { WekiListType } from "../../../@types/AllType";
 import wekiListConverter from "pages/FirestoreDataConverter";
+import "./main.css";
 
 const Main = () => {
   const [totalCnt, setTotalCnt] = useState<number>(0);

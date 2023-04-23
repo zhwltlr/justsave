@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { postIdState } from "../../atom";
 import { useRecoilState } from "recoil";
-import "./detail.css";
 import {
   collection,
   deleteDoc,
@@ -14,6 +13,7 @@ import { firestore } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { WekiListType } from "../../../@types/AllType";
 import wekiListConverter from "pages/FirestoreDataConverter";
+import "./detail.css";
 
 function Detail() {
   const params = useParams();
